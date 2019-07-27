@@ -17,7 +17,16 @@ def main(stdscr):
     for body_part in snake.body:
         stdscr.addch(body_part[Y], body_part[X], "#")
 
-    textpad.rectangle(stdscr, 3, 3, screen_height - 3, screen_width - 3)
+    rect_top_left = (3, screen_width // 3)
+    rect_bottom_right = (screen_height - 3, (screen_width // 3) * 2)
+
+    textpad.rectangle(
+        stdscr, 
+        rect_top_left[Y], 
+        rect_top_left[X], 
+        rect_bottom_right[Y], 
+        rect_bottom_right[X]
+    )
 
     while True:
         key = stdscr.getch() 
@@ -38,6 +47,12 @@ def main(stdscr):
 
         new_head = snake.body[HEAD].copy()
         new_head[position] += delta
+
+        if new_head[Y] == rect_top_left[Y] or new_head[Y] == rect_bottom_right[Y]:
+            break
+
+        elif new_head[X] == rect_top_left[X] or new_head[X] == rect_bottom_right[X]:
+            break
 
         snake.body.insert(0, new_head)
 
