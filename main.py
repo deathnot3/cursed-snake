@@ -47,6 +47,8 @@ def main(stdscr):
 
     stdscr.addstr(2, rect_top_left[X], "Length of your snake: ")
 
+    stdscr.addstr(screen_height - 1, screen_width // 2 - len("Press ESC to quit") // 2, "Press ESC to quit")
+
     while True:
         key = stdscr.getch() 
 
@@ -61,6 +63,9 @@ def main(stdscr):
 
         elif key == curses.KEY_UP:
             snake.direction = (VERTICAL, -VELOCITY)
+
+        elif key == 27:
+            break
 
         position, delta = snake.direction
 
