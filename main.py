@@ -40,8 +40,12 @@ def main(stdscr):
 
     new_head = list()
 
+    stdscr.addstr(0, screen_width // 2 - len("Martin Nieva's snake game") // 2, "Martin Nieva's snake game")
+
     for body_part in snake.body:
         stdscr.addch(body_part[Y], body_part[X], "#")
+
+    stdscr.addstr(2, rect_top_left[X], "Length of your snake: ")
 
     while True:
         key = stdscr.getch() 
@@ -83,5 +87,9 @@ def main(stdscr):
         
         if len(snake.body) > snake.length:
             snake.body.pop()
+
+        snake_length_digits = len(list(str(snake.length)))
+
+        stdscr.addstr(2, rect_bottom_right[X] - (snake_length_digits - 1), "{}".format(snake.length))
 
 curses.wrapper(main)
