@@ -1,7 +1,8 @@
 import curses
+from curses import textpad
 from constants import *
 from snake import *
-from curses import textpad
+from food import *
 
 def main(stdscr):
     curses.curs_set(0)
@@ -9,13 +10,6 @@ def main(stdscr):
     stdscr.timeout(1000 // FPS)
 
     screen_height, screen_width = stdscr.getmaxyx()
-
-    snake = Snake(10, screen_height, screen_width, (HORIZONTAL, VELOCITY))
-
-    new_head = list()
-
-    for body_part in snake.body:
-        stdscr.addch(body_part[Y], body_part[X], "#")
 
     rect_top_left = (3, screen_width // 3)
     rect_bottom_right = (screen_height - 3, (screen_width // 3) * 2)
@@ -27,6 +21,27 @@ def main(stdscr):
         rect_bottom_right[Y], 
         rect_bottom_right[X]
     )
+
+    snake = Snake(
+        4, 
+        screen_height, 
+        screen_width, 
+        (HORIZONTAL, VELOCITY)
+    )
+
+    food = Food(
+        rect_top_left[Y], 
+        rect_top_left[X], 
+        rect_bottom_right[Y], 
+        rect_bottom_right[X]
+    )
+
+    food.create_and_draw(stdscr, snake.body)
+
+    new_head = list()
+
+    for body_part in snake.body:
+        stdscr.addch(body_part[Y], body_part[X], "#")
 
     while True:
         key = stdscr.getch() 
@@ -56,6 +71,10 @@ def main(stdscr):
    
         if new_head in snake.body:
             break
+
+        if new_head[Y] == food.y and new_head[X] == food.x:
+            snake.length += 1
+            food.create_and_draw(stdscr, snake.body)
 
         snake.body.insert(0, new_head)
 
