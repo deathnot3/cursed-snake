@@ -10,7 +10,7 @@ def main(stdscr):
 
     screen_height, screen_width = stdscr.getmaxyx()
 
-    snake = Snake(3, screen_height, screen_width, (HORIZONTAL, VELOCITY))
+    snake = Snake(10, screen_height, screen_width, (HORIZONTAL, VELOCITY))
 
     new_head = list()
 
@@ -53,12 +53,16 @@ def main(stdscr):
 
         elif new_head[X] == rect_top_left[X] or new_head[X] == rect_bottom_right[X]:
             break
+   
+        if new_head in snake.body:
+            break
 
         snake.body.insert(0, new_head)
 
         stdscr.addch(snake.body[HEAD][Y], snake.body[HEAD][X], "#")
         stdscr.addch(snake.body[TAIL][Y], snake.body[TAIL][X], " ")
         
-        snake.body.pop()
+        if len(snake.body) > snake.length:
+            snake.body.pop()
 
 curses.wrapper(main)
