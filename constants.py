@@ -1,0 +1,12 @@
+HEAD = 0
+TAIL = -1
+
+Y = 0
+X = 1
+
+HORIZONTAL = 1
+VERTICAL = 0
+
+VELOCITY = 1
+
+FPS = 10
