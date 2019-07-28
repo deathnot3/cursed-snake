@@ -40,7 +40,7 @@ def main(stdscr):
 
     new_head = list()
 
-    stdscr.addstr(0, screen_width // 2 - len("Martin Nieva's snake game") // 2, "Martin Nieva's snake game")
+    stdscr.addstr(0, 0, "Dev: Martin Nieva")
 
     for body_part in snake.body:
         stdscr.addch(body_part[Y], body_part[X], "#")
