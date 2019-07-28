@@ -31,6 +31,8 @@ def main(stdscr):
         (HORIZONTAL, VELOCITY)
     )
 
+    new_head = list()
+
     # Initializing the food
     food = Food(
         rect_top_left[Y], 
@@ -39,9 +41,9 @@ def main(stdscr):
         rect_bottom_right[X]
     )
 
-    food.create_and_draw(stdscr, snake.body)
+    erased = [0, 0]
 
-    new_head = list()
+    food.create_and_draw(stdscr, snake.body, erased)
 
     stdscr.addstr(0, 0, "Dev: Martin Nieva")
 
@@ -86,7 +88,7 @@ def main(stdscr):
         # Make the player's length increment if he touches the drawn food 
         if new_head[Y] == food.y and new_head[X] == food.x:
             snake.length += 1
-            food.create_and_draw(stdscr, snake.body)
+            food.create_and_draw(stdscr, snake.body, erased)
 
         # Make the player quit if he touches himself
         if new_head in snake.body:
@@ -98,7 +100,7 @@ def main(stdscr):
         stdscr.addch(snake.body[TAIL][Y], snake.body[TAIL][X], " ")
         
         if len(snake.body) > snake.length:
-            snake.body.pop()
+            erased = snake.body.pop()
 
         snake_length_digits = len(list(str(snake.length)))
 

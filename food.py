@@ -1,4 +1,5 @@
 from random import randint
+from constants import *
 
 class Food:
     def __init__(self, min_y, min_x, max_y, max_x):
@@ -8,7 +9,7 @@ class Food:
         self.max_y = max_y
         self.max_x = max_x
 
-    def create_and_draw(self, stdscr, snake_body):
+    def create_and_draw(self, stdscr, snake_body, erased):
         flag = False
 
         self.y = randint(self.min_y + 1, self.max_y - 1)
@@ -16,7 +17,7 @@ class Food:
 
         while True:
             for body_part in snake_body:
-                if self.x in body_part and self.y in body_part:
+                if self.x in body_part and self.y in body_part or self.y == erased[Y] and self.x == erased[X]:
                     flag = True
                     break
             
