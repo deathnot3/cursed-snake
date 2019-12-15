@@ -21,6 +21,9 @@ def main(stdscr):
     except ValueError:
         snake_length = 4
 
+    if snake_length > screen_width // 2:
+        snake_length = screen_width // 2
+
     # Creating the box in which the player will be able to move
     textpad.rectangle(
         stdscr,
