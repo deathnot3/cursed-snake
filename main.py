@@ -114,7 +114,7 @@ def main(stdscr):
 
         snake_length_digits = len(list(str(snake.length)))
 
-        stdscr.addstr(2, rect_bottom_right[X] - (snake_length_digits - 1), "{}".format(snake.length))
+        stdscr.addstr(2, rect_bottom_right[X] - (snake_length_digits - 1), f"{snake.length}")
 
         # stdscr.addstr(screen_height - 6, 5, "{}".format(snake.body))
         # stdscr.addstr(screen_height - 1, 5, "{} {}".format(food.y, food.x))
