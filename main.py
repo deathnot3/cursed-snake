@@ -1,4 +1,4 @@
-import curses
+import curses, sys
 from curses import textpad
 from constants import *
 from snake import *
@@ -14,20 +14,27 @@ def main(stdscr):
     rect_top_left = (3, screen_width // 3)
     rect_bottom_right = (screen_height - 3, (screen_width // 3) * 2)
 
+    # Getting initial snake's length from the arguments
+    try:
+        snake_length = int(sys.argv[1]) if len(sys.argv) > 1 else 4
+
+    except ValueError:
+        snake_length = 4
+
     # Creating the box in which the player will be able to move
     textpad.rectangle(
-        stdscr, 
-        rect_top_left[Y], 
-        rect_top_left[X], 
-        rect_bottom_right[Y], 
+        stdscr,
+        rect_top_left[Y],
+        rect_top_left[X],
+        rect_bottom_right[Y],
         rect_bottom_right[X]
     )
 
     # Creating the snake (first parameter is the length)
     snake = Snake(
-        4, 
-        screen_height, 
-        screen_width, 
+        snake_length,
+        screen_height,
+        screen_width,
         (HORIZONTAL, VELOCITY)
     )
 
@@ -35,9 +42,9 @@ def main(stdscr):
 
     # Initializing the food
     food = Food(
-        rect_top_left[Y], 
-        rect_top_left[X], 
-        rect_bottom_right[Y], 
+        rect_top_left[Y],
+        rect_top_left[X],
+        rect_bottom_right[Y],
         rect_bottom_right[X]
     )
 
@@ -55,7 +62,7 @@ def main(stdscr):
     stdscr.addstr(screen_height - 1, screen_width // 2 - len("Press ESC to quit") // 2, "Press ESC to quit") # UI element
 
     while True:
-        key = stdscr.getch() 
+        key = stdscr.getch()
 
         # If statements for movement
         if key == curses.KEY_RIGHT and snake.direction != (HORIZONTAL, -VELOCITY):
@@ -79,13 +86,13 @@ def main(stdscr):
         new_head[position] += delta
 
         # Make the player quit if he touches the walls
-        if new_head[Y] == rect_top_left[Y] or new_head[Y] == rect_bottom_right[Y]: 
+        if new_head[Y] == rect_top_left[Y] or new_head[Y] == rect_bottom_right[Y]:
             break
 
         elif new_head[X] == rect_top_left[X] or new_head[X] == rect_bottom_right[X]:
             break
-   
-        # Make the player's length increment if he touches the drawn food 
+
+        # Make the player's length increment if he touches the drawn food
         if new_head[Y] == food.y and new_head[X] == food.x:
             snake.length += 1
             food.create_and_draw(stdscr, snake.body, erased)
@@ -98,7 +105,7 @@ def main(stdscr):
 
         stdscr.addch(snake.body[HEAD][Y], snake.body[HEAD][X], "#")
         stdscr.addch(snake.body[TAIL][Y], snake.body[TAIL][X], " ")
-        
+
         if len(snake.body) > snake.length:
             erased = snake.body.pop()
 
@@ -108,5 +115,5 @@ def main(stdscr):
 
         # stdscr.addstr(screen_height - 6, 5, "{}".format(snake.body))
         # stdscr.addstr(screen_height - 1, 5, "{} {}".format(food.y, food.x))
-    
+
 curses.wrapper(main)
