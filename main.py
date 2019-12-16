@@ -8,6 +8,7 @@ def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(1)
     stdscr.timeout(1000 // FPS)
+    curses.raw()
 
     screen_height, screen_width = stdscr.getmaxyx()
 
@@ -83,6 +84,9 @@ def main(stdscr):
         elif key == 27: # If player presses ESC, then quit
             break
 
+        elif key == 3:
+            break
+
         position, delta = snake.direction
 
         new_head = snake.body[HEAD].copy()
@@ -119,4 +123,8 @@ def main(stdscr):
         # stdscr.addstr(screen_height - 6, 5, "{}".format(snake.body))
         # stdscr.addstr(screen_height - 1, 5, "{} {}".format(food.y, food.x))
 
-curses.wrapper(main)
+    return snake.length
+
+snake_length = curses.wrapper(main)
+
+print(f"Your final score is {snake_length}")
